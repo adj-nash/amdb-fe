@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import MovieItem from "./movie-item";
+import ReactPaginate from "react-paginate";
 
 const MovieList = () => {
   const [movies, setMovies] = useState(null);
@@ -35,8 +36,32 @@ const MovieList = () => {
       .catch((err) => alert("Error getting data."));
   };
 
+  const handlePageClick = (pageIndex) => {
+    setPage(pageIndex.selected);
+  };
+
   return (
-    <>{movies ? movies.map((m, i) => <MovieItem key={i} data={m} />) : ""}</>
+    <>
+      {movies ? movies.map((m, i) => <MovieItem key={i} data={m} />) : ""}
+      <div className="d-flex justify-content-center">
+        <ReactPaginate
+          previousLabel={"Previous"}
+          nextLabel={"Next"}
+          breakLabel={"..."}
+          breakClassName={"page-link"}
+          pageCount={moviesCount}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={handlePageClick}
+          containerClassName={"pagination"}
+          pageClassName={"page-item"}
+          pageLinkClassName={"page-link"}
+          previousClassName={"page-link"}
+          nextClassName={"page-link"}
+          activeClassName={"active"}
+        />
+      </div>
+    </>
   );
 };
 

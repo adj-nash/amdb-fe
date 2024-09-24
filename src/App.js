@@ -1,16 +1,25 @@
 import "./App.css";
-import { Container, Nav, Navbar } from "react-bootstrap";
-import { BrowserRouter, Link, Routes, Route } from "react-router-dom";
+import { Container, Nav, Navbar, Button } from "react-bootstrap";
+import { BrowserRouter, Link, Switch, Route } from "react-router-dom";
 import Landing from "./pages/landing";
 import Actors from "./pages/actors";
 
 function App() {
+  const button = {
+    backgroundColor: "#E4D00A",
+    fontSize: "15px",
+    marginBottom: "20px",
+    margin: "20px",
+    color: "black",
+    padding: "0, 30px",
+  };
+
   return (
     <Container>
       <BrowserRouter>
         <Navbar bg="dark" variant="dark">
           <Navbar.Brand as={Link} to="/">
-            &nbsp;&nbsp;Movie Database
+            <Button style={button}>AMDb</Button>
           </Navbar.Brand>
           <Nav className="mr-auto">
             <Nav.Link as={Link} to="/">
@@ -21,10 +30,10 @@ function App() {
             </Nav.Link>
           </Nav>
         </Navbar>
-        <Routes>
-          <Route exact path="/" element={<Landing />} />
-          <Route exact path="/Actors" element={<Actors />} />
-        </Routes>
+        <Switch>
+          <Route exact path="/" component={() => <Landing />} />
+          <Route exact path="/Actors" component={Actors} />
+        </Switch>
       </BrowserRouter>
     </Container>
   );

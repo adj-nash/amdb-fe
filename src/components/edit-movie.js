@@ -1,12 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import blank from "../1aaafff8-98bd-4756-8dad-85d1e86a3277_qr.jpeg";
 import { Form, Image, Button } from "react-bootstrap";
 import AsyncSelect from "react-select/async";
+import App from "../App";
+import { useHistory } from "react-router-dom";
 
-const EditMovie = () => {
+const EditMovie = (props) => {
   const [movie, setMovie] = useState({});
   const [actors, setActors] = useState(null);
   const [validated, setValidated] = useState(false);
+
+  const history = useHistory();
+
+  useEffect(() => {
+    if (props.match !== undefined && props.match.params.movieid !== undefined) {
+      fetch(
+        process.env.REACT_APP_API_URL + "/Movie/" + props.match.params.movieid
+      )
+        .then((res) => res.json())
+        .then((res) => {
+          if (res.status === true) {
+            let movieData = res.data;
+            if (movieData.releaseDate) {
+              movieData.releaseDate = movieData.releaseDate.split("T")[0];
+            }
+            setMovie(res.data);
+            setActors(
+              res.data.actors.map((x) => {
+                return { value: x.id, label: x.name };
+              })
+            );
+          }
+        })
+        .catch((err) => alert("Error in getting data"));
+    }
+  }, []);
 
   const handleFileUpload = (event) => {
     event.preventDefault();
@@ -105,6 +133,7 @@ const EditMovie = () => {
           if (res.status === true && res.data) {
             setMovie(res.data);
             alert("Record updated successfully!");
+            return history.push("/");
           }
         })
         .catch((err) => alert("Error in updating data"));
@@ -123,6 +152,7 @@ const EditMovie = () => {
           if (res.status === true && res.data) {
             setMovie(res.data);
             alert("Created successfully!");
+            return history.push("/");
           }
         })
         .catch((err) => alert("Error in creating new record"));
@@ -139,11 +169,13 @@ const EditMovie = () => {
             src={(movie && movie.coverImage) || blank}
           />
         </Form.Group>
+        <br />
         <Form.Group className="d-flex justify-content-center">
           <div>
-            <input type="file" required onChange={handleFileUpload}></input>
+            <input type="file" onChange={handleFileUpload}></input>
           </div>
         </Form.Group>
+        <br />
         <Form.Group controlId="formMovieTitle">
           <Form.Label>Movie Title</Form.Label>
           <Form.Control
@@ -155,10 +187,12 @@ const EditMovie = () => {
             onChange={handleFieldChange}
             required
           />
+          <br />
           <Form.Control.Feedback type="invalid">
             Please enter movie name.
           </Form.Control.Feedback>
         </Form.Group>
+
         <Form.Group controlId="formMovieDescription">
           <Form.Label>Movie Description</Form.Label>
           <Form.Control
@@ -171,6 +205,7 @@ const EditMovie = () => {
             required
           />
         </Form.Group>
+        <br />
         <Form.Group controlId="formMovieReleaseDate">
           <Form.Label>Movie Release Date</Form.Label>
           <Form.Control
@@ -180,10 +215,12 @@ const EditMovie = () => {
             onChange={handleFieldChange}
             required
           />
+          <br />
           <Form.Control.Feedback type="invalid">
             Please enter movie release date.
           </Form.Control.Feedback>
         </Form.Group>
+
         <Form.Group controlId="formMovieReleaseDate">
           <Form.Label>Movie Actors</Form.Label>
           <AsyncSelect
@@ -194,6 +231,7 @@ const EditMovie = () => {
             onChange={multiSelectChange}
           />
         </Form.Group>
+        <br />
         <Form.Group controlId="formMovieLanguage">
           <Form.Label>Movie Language</Form.Label>
           <Form.Control
@@ -204,7 +242,8 @@ const EditMovie = () => {
             onChange={handleFieldChange}
           />
         </Form.Group>
-        <Button type="submit">
+        <br />
+        <Button type="submit" variant="dark">
           {movie && movie.id > 0 ? "Update" : "Create"}
         </Button>
       </Form>

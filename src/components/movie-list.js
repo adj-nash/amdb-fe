@@ -40,6 +40,24 @@ const MovieList = () => {
     setPage(pageIndex.selected);
   };
 
+  const deleteMovie = (id) => {
+    fetch(process.env.REACT_APP_API_URL + "/Movie/:id=" + id, {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.status === true) {
+          alert(res.message);
+          getMovies();
+        }
+      })
+      .catch((err) => alert("Error in deleting data"));
+  };
+
   return (
     <>
       {movies ? movies.map((m, i) => <MovieItem key={i} data={m} />) : ""}

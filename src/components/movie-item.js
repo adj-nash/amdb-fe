@@ -15,18 +15,16 @@ const MovieItem = (props) => {
         </Col>
         <Col item xs={12} md={10}>
           <div>
-            <b>{props.data.title}</b>
+            <h3>
+              <b>{props.data.title}</b>
+            </h3>
           </div>
-          <div>Actors: {props.data.actors.map((x) => x.name).join(", ")}</div>
           <div>
-            Description: Screeching Weasel is an American punk rock band
-            consisting of Ben Weasel (vocals), Mike Kennerty (guitar), Mike
-            Hunchback (guitar), Zach "Poutine" Brandner (bass) and Pierre Marche
-            (drums) founded in 1986 by Ben Weasel and John Jughead. Screeching
-            Weasel is originally from the Chicago suburb of Prospect Heights,
-            Illinois.[1] Since their formation, Screeching Weasel have reformed
-            several times with lineup changes. Ben Weasel has been the only
-            constant member, though Jughead was present in every incarnation of
+            <b> Artist: </b> {props.data.actors.map((x) => x.name).join(", ")}
+          </div>
+          <div>
+            <b>History: </b>
+            {props.data.description.substring(0, 680)} +{" "}
           </div>
           <br />
           <Button
@@ -46,6 +44,7 @@ const MovieItem = (props) => {
           <Button
             variant="danger"
             onClick={() => props.deleteMovie(props.data.id)}
+            danger
           >
             Delete
           </Button>

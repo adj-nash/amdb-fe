@@ -5,6 +5,8 @@ import Landing from "./pages/landing";
 import Actors from "./pages/actors";
 import EditMovie from "./components/edit-movie";
 import MovieDetails from "./components/movie-details";
+import CreateEditActor from "./components/create-edit-actor";
+import ActorDetails from "./components/actor-details";
 import "./styles.css";
 
 function App() {
@@ -22,7 +24,7 @@ function App() {
       <BrowserRouter>
         <Navbar bg="dark" variant="dark" className="d-flex">
           <Navbar.Brand as={Link} to="/">
-            <Button style={button} size="lg" font->
+            <Button style={button} size="lg">
               &nbsp;&nbsp;&nbsp;&nbsp;AMDb&nbsp;&nbsp;&nbsp;&nbsp;
             </Button>
           </Navbar.Brand>
@@ -42,6 +44,16 @@ function App() {
             <Route exact path="/details/:movieid" component={MovieDetails} />
             <Route exact path="/edit/:movieid" component={EditMovie} />
             <Route exact path="/Actors" component={Actors} />
+            <Route
+              exact
+              path="/Actors/create-edit"
+              component={CreateEditActor}
+            />
+            <Route
+              exact
+              path="/Actors/details/:actorid"
+              component={ActorDetails}
+            />
           </Switch>
         </Container>
       </BrowserRouter>

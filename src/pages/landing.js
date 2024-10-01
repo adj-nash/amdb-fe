@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Row, Col, Button, ButtonGroup } from "react-bootstrap";
+import { Row, Col, Button } from "react-bootstrap";
 import MovieList from "../components/movie-list";
 import CreateMovieModel from "../components/create-movie-model";
 import "../styles.css";
@@ -11,7 +11,7 @@ const Landing = () => {
     <>
       <Row>
         <Col xs={12} md={10}>
-          <h2>Movies</h2>
+          <h2>Music on AMDb</h2>
         </Col>
         <Col xs={12} md={2} className="align-self-center">
           <div className="float-right">
@@ -21,7 +21,7 @@ const Landing = () => {
                 setShow(true);
               }}
             >
-              Add Movie
+              Add Record
             </Button>{" "}
             <Button>Hello</Button>
           </div>
